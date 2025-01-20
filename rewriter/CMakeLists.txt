@@ -45,7 +45,7 @@ mozc_library(rewriter.cc
     usage_rewriter.cc
     
     DEPENDS
-    protocol
+    mozc::protocol::protocol
     mozc::base::util
     mozc::base::version
     mozc::base::file_util

@@ -32,7 +32,7 @@ mozc_library(number_decoder.cc DEPENDS
     mozc::base::util
 )
 mozc_library(dictionary_prediction_aggregator.cc DEPENDS
-    protocol
+    mozc::protocol::protocol
     mozc::base::util
     mozc::base::number_util
     mozc::converter::segments
@@ -45,7 +45,7 @@ mozc_library(result.cc DEPENDS
     absl::log
 )
 mozc_library(dictionary_predictor.cc DEPENDS
-    protocol
+    mozc::protocol::protocol
     mozc::composer::composer
     mozc::converter::segments
     mozc::converter::connector
@@ -56,7 +56,7 @@ mozc_library(dictionary_predictor.cc DEPENDS
     mozc::dictionary::single_kanji_dictionary
     mozc::prediction::dictionary_prediction_aggregator)
 mozc_library(predictor.cc DEPENDS
-    protocol
+    mozc::protocol::protocol
     mozc::composer::composer
     mozc::converter::segments
 )

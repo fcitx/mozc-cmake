@@ -1,5 +1,5 @@
 mozc_library(config_handler.cc DEPENDS
-    protocol
+    mozc::protocol::protocol
     mozc::base::vlog
     mozc::base::clock
     mozc::base::version
@@ -9,7 +9,7 @@ mozc_library(config_handler.cc DEPENDS
     mozc::base::system_util)
 mozc_library(stats_config_util.cc DEPENDS mozc::base::singleton absl::base)
 mozc_library(character_form_manager.cc DEPENDS
-    protocol
+    mozc::protocol::protocol
     absl::raw_hash_set
     absl::log
     absl::check

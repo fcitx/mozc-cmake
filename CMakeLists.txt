@@ -13,6 +13,8 @@ include(cmake/Macros.cmake)
 
 include(GNUInstallDirs)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 set(CMAKE_CXX_FLAGS "-funsigned-char ${CMAKE_CXX_FLAGS}")
 set(CMAKE_SHARED_LINKER_FLAGS "-Wl,--no-undefined -Wl,--as-needed ${CMAKE_SHARED_LINKER_FLAGS}")
 set(CMAKE_MODULE_LINKER_FLAGS "-Wl,--no-undefined -Wl,--as-needed ${CMAKE_MODULE_LINKER_FLAGS}")
@@ -22,23 +24,9 @@ set(MOZC_SOURCE_DIR ${PROJECT_SOURCE_DIR}/mozc/src)
 include_directories(mozc/src)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(MOZC_LIBRARY_TYPE STATIC)
-# set(MOZC_LIBRARY_TYPE SHARED) # Uncomment to test dependency and missing symbols.
+set(MOZC_LIBRARY_TYPE SHARED) # Uncomment to test dependency and missing symbols.
 
-add_library(protocol ${MOZC_LIBRARY_TYPE}
-    mozc/src/protocol/commands.proto
-    mozc/src/protocol/candidate_window.proto
-    mozc/src/protocol/config.proto
-    mozc/src/protocol/engine_builder.proto
-    mozc/src/protocol/user_dictionary_storage.proto
-    mozc/src/protocol/state.proto
-)
-target_include_directories(protocol PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
-target_link_libraries(protocol PUBLIC protobuf::libprotobuf)
-protobuf_generate(TARGET protocol LANGUAGE cpp
-    IMPORT_DIRS mozc/src)
-
-mozc_library(protocol/segmenter_data.proto)
-
+add_subdirectory(protocol)
 add_subdirectory(base)
 add_subdirectory(config)
 add_subdirectory(composer)
@@ -63,7 +51,7 @@ add_executable(mozc_server
 
 target_include_directories(mozc_server PRIVATE mozc/src)
 target_link_libraries(mozc_server
-    protocol
+    mozc::protocol::protocol
     mozc::base::system_util
     mozc::base::run_level
     mozc::base::init_mozc
@@ -89,7 +77,7 @@ set_target_properties(fcitx5-mozc PROPERTIES PREFIX "")
 target_link_libraries(fcitx5-mozc 
     Fcitx5::Core
     PkgConfig::Fcitx5Module
-    protocol 
+    mozc::protocol::protocol 
     mozc::base::vlog
     mozc::base::process
     mozc::base::util
