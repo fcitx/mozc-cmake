@@ -7,6 +7,7 @@ mozc_python_gen_file(usage_stats/gen_stats_list.py
 add_custom_target(usage_state_list
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/usage_stats_list.inc
 )
+set_target_properties(usage_state_list PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 mozc_library(usage_stats.proto)
 mozc_library(usage_stats_uploader.cc DEPENDS mozc::storage::registry absl::strings)

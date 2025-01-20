@@ -85,6 +85,7 @@ mozc_python_gen_file(base/gen_character_set.py
          --jisx0208file=data/unicode/JIS0208.TXT
          --output=${CMAKE_CURRENT_BINARY_DIR}/character_set.inc)
 add_custom_target(character_set DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/character_set.inc)
+set_target_properties(character_set PROPERTIES EXCLUDE_FROM_ALL TRUE)
 mozc_library(strings
              SOURCES
                 strings/internal/double_array.cc

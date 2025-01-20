@@ -13,3 +13,5 @@ target_link_libraries(mozc_tool
     word_register_dialog
     dictionary_tool
 )
+
+install(TARGETS mozc_tool DESTINATION "${CMAKE_INSTALL_LIBDIR}/mozc")

@@ -5,6 +5,7 @@ mozc_python_gen_file(dictionary/gen_pos_matcher_code.py
          --output_pos_matcher_h=${CMAKE_CURRENT_BINARY_DIR}/pos_matcher_impl.inc
 )
 add_custom_target(pos_matcher_impl DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/pos_matcher_impl.inc)
+set_target_properties(pos_matcher_impl PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 mozc_library(pos_matcher.h)
 target_include_directories(dictionary-pos_matcher INTERFACE ${PROJECT_BINARY_DIR})
@@ -26,6 +27,7 @@ mozc_python_gen_file(dictionary/gen_pos_map.py
          --output=${CMAKE_CURRENT_BINARY_DIR}/pos_map.inc
 )
 add_custom_target(pos_map DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/pos_map.inc)
+set_target_properties(pos_map PROPERTIES EXCLUDE_FROM_ALL TRUE)
 mozc_library(user_dictionary_importer.cc 
     DEPENDS mozc::protocol::protocol mozc::base::mmap mozc::base::strings mozc::base::vlog mozc::base::number_util mozc::base::hash mozc::dictionary::user_dictionary_util)
 add_dependencies(dictionary-user_dictionary_importer pos_map)

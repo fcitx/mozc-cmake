@@ -24,7 +24,12 @@ set(MOZC_SOURCE_DIR ${PROJECT_SOURCE_DIR}/mozc/src)
 include_directories(mozc/src)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(MOZC_LIBRARY_TYPE STATIC)
-set(MOZC_LIBRARY_TYPE SHARED) # Uncomment to test dependency and missing symbols.
+# set(MOZC_LIBRARY_TYPE SHARED) # Uncomment to test dependency and missing symbols.
+
+option(ENABLE_SERVER "Build Fcitx 5 Mozc with server" On)
+option(BUILD_SERVER "Build mozc_server" On)
+option(BUILD_TOOL "Build mozc_tool" On)
+option(BUILD_FCITX "Build fcitx5-mozc" On)
 
 add_subdirectory(protocol)
 add_subdirectory(base)
@@ -42,48 +47,15 @@ add_subdirectory(transliteration)
 add_subdirectory(session)
 add_subdirectory(prediction)
 add_subdirectory(engine)
+
+if (BUILD_TOOL)
 add_subdirectory(gui)
+endif()
 
-add_executable(mozc_server
-    mozc/src/server/mozc_server.cc
-    mozc/src/server/mozc_server_main.cc
-)
+if (BUILD_SERVER)
+add_subdirectory(server)
+endif()
 
-target_include_directories(mozc_server PRIVATE mozc/src)
-target_link_libraries(mozc_server
-    mozc::protocol::protocol
-    mozc::base::system_util
-    mozc::base::run_level
-    mozc::base::init_mozc
-    mozc::base::crash_report_handler
-    mozc::base::process_mutex
-    mozc::session::session_server
-    config-stats_config_util
-)
-
-add_library(fcitx5-mozc MODULE
-    mozc/src/unix/fcitx5/surrounding_text_util.cc
-    mozc/src/unix/fcitx5/fcitx_key_event_handler.cc
-    mozc/src/unix/fcitx5/fcitx_key_translator.cc
-    mozc/src/unix/fcitx5/mozc_client_pool.cc
-    mozc/src/unix/fcitx5/mozc_engine_factory.cc
-    mozc/src/unix/fcitx5/mozc_engine.cc
-    mozc/src/unix/fcitx5/mozc_ipc_client.cc
-    mozc/src/unix/fcitx5/mozc_response_parser.cc
-    mozc/src/unix/fcitx5/mozc_state.cc
-)
-set_target_properties(fcitx5-mozc PROPERTIES PREFIX "")
-
-target_link_libraries(fcitx5-mozc 
-    Fcitx5::Core
-    PkgConfig::Fcitx5Module
-    mozc::protocol::protocol 
-    mozc::base::vlog
-    mozc::base::process
-    mozc::base::util
-    mozc::base::init_mozc
-    mozc::client::client)
-
-install(TARGETS mozc_server DESTINATION "${CMAKE_INSTALL_LIBDIR}/mozc")
-install(TARGETS mozc_tool DESTINATION "${CMAKE_INSTALL_LIBDIR}/mozc")
-install(TARGETS fcitx5-mozc DESTINATION "${CMAKE_INSTALL_LIBDIR}/fcitx5")
+if (BUILD_FCITX)
+add_subdirectory(fcitx)
+endif()

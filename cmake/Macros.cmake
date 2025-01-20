@@ -40,6 +40,8 @@ elseif (add_target STREQUAL add_library)
 add_library(${TGT} ${LIBRARY_TYPE})
 endif()
 
+set_target_properties(${TGT} PROPERTIES EXCLUDE_FROM_ALL TRUE)
+
 set(sources)
 foreach(source_arg IN LISTS arg_SOURCES)
     if (NOT IS_ABSOLUTE ${source_arg})
@@ -237,6 +239,7 @@ mozc_python_gen_file(build_tools/embed_file.py
 add_custom_target(dataset-${dataset_tag}-pos_list
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${POS_LIST_INC}
 )
+set_target_properties(dataset-${dataset_tag}-pos_list PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 mozc_python_gen_file(dictionary/gen_pos_matcher_code.py
     OUTPUTS ${POS_MATCHER_DATA}
@@ -309,6 +312,7 @@ mozc_binary_gen_file(mozc::dictionary::gen_system_dictionary_data_main
 add_custom_target(dataset-${dataset_tag}-system_dictionary
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${SYSTEM_DICTIONARY}
 )
+set_target_properties(dataset-${dataset_tag}-system_dictionary PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 set(SUGGESTION_FILTER_FILE ${MOZC_SOURCE_DIR}/data/dictionary_oss/suggestion_filter.txt)
 set(SUGGESTION_FILTER_DATA suggestion_filter_data.data)
@@ -637,5 +641,6 @@ mozc_python_gen_file(build_tools/embed_file.py
 add_custom_target(dataset-${dataset_tag}-mozc_data
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${MOZC_DATA_INC}
 )
+set_target_properties(dataset-${dataset_tag}-mozc_data PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 endfunction()

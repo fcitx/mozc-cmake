@@ -22,6 +22,7 @@ mozc_python_gen_file(build_tools/redirect.py
 add_custom_target(segmenter_inl
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/segmenter_inl.inc
 )
+set_target_properties(segmenter_inl PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 mozc_executable(gen_oss_segmenter_bitarray_main.cc
     DEPENDS 
