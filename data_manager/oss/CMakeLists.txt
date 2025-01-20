@@ -30,5 +30,4 @@ mozc_executable(gen_oss_segmenter_bitarray_main.cc
     mozc::converter::gen_segmenter_bitarray
 )
 add_dependencies(data_manager-oss-gen_oss_segmenter_bitarray_main segmenter_inl)
-
-target_include_directories(data_manager-oss-gen_oss_segmenter_bitarray_main PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(data_manager-oss-gen_oss_segmenter_bitarray_main PRIVATE ${PROJECT_BINARY_DIR})

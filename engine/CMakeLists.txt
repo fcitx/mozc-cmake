@@ -1,8 +1,8 @@
 mozc_library(minimal_converter.cc DEPENDS
-    protocol
+    mozc::protocol::protocol
     mozc::converter::segments)
 mozc_library(modules.cc DEPENDS
-    protocol
+    mozc::protocol::protocol
     mozc::converter::connector
     mozc::converter::segmenter
     mozc::prediction::suggestion_filter
@@ -16,7 +16,7 @@ mozc_library(data_loader.cc DEPENDS
     mozc::engine::modules
     mozc::data_manager::data_manager)
 mozc_library(engine.cc DEPENDS
-    protocol
+    mozc::protocol::protocol
     mozc::prediction::user_history_predictor
     mozc::converter::converter
     mozc::engine::minimal_converter

@@ -10,7 +10,9 @@ add_custom_target(usage_state_list
 
 mozc_library(usage_stats.proto)
 mozc_library(usage_stats_uploader.cc DEPENDS mozc::storage::registry absl::strings)
-mozc_library(usage_stats.cc
-             DEPENDS mozc::usage_stats::usage_stats_uploader mozc::base::vlog mozc::storage::registry mozc::usage_stats::usage_stats_pb)
+mozc_library(usage_stats.cc DEPENDS
+    mozc::usage_stats::usage_stats_uploader
+    mozc::base::vlog mozc::storage::registry
+    mozc::usage_stats::usage_stats_pb)
 target_include_directories(usage_stats-usage_stats PRIVATE ${PROJECT_BINARY_DIR})
 add_dependencies(usage_stats-usage_stats usage_state_list)

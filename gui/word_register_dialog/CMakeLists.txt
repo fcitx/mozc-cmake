@@ -20,7 +20,7 @@ add_library(word_register_dialog ${MOZC_LIBRARY_TYPE}
 target_include_directories(word_register_dialog PRIVATE ${PROJECT_SOURCE_DIR}/mozc/src ${PROJECT_BINARY_DIR})
 target_link_libraries(word_register_dialog
     Qt6::Widgets
-    protocol
+    mozc::protocol::protocol
     mozc::gui::base
     mozc::dictionary::user_dictionary_util
     mozc::dictionary::user_dictionary_storage

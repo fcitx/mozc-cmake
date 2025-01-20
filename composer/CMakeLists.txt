@@ -10,7 +10,7 @@ mozc_library(composer.cc
                 key_parser.cc
                 key_event_util.cc
              DEPENDS
-                protocol
+                mozc::protocol::protocol
                 mozc::base::strings
                 mozc::base::util
                 mozc::base::vlog

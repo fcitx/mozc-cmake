@@ -30,7 +30,7 @@ add_library(dictionary_tool ${MOZC_LIBRARY_TYPE}
 target_include_directories(dictionary_tool PRIVATE ${PROJECT_SOURCE_DIR}/mozc/src)
 target_link_libraries(dictionary_tool
     Qt6::Widgets
-    protocol
+    mozc::protocol::protocol
     mozc::base::system_util
     mozc::base::util
     mozc::dictionary::user_dictionary_storage

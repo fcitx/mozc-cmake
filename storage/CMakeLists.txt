@@ -1,4 +1,9 @@
-mozc_library(tiny_storage.cc DEPENDS absl::log mozc::base::file_util mozc::base::file_stream mozc::base::vlog)
+mozc_library(tiny_storage.cc DEPENDS
+    absl::log
+    absl::check
+    mozc::base::file_util
+    mozc::base::file_stream
+    mozc::base::vlog)
 mozc_library(registry.cc DEPENDS absl::log mozc::storage::tiny_storage mozc::base::system_util mozc::base::singleton)
 mozc_library(lru_storage.cc DEPENDS absl::raw_hash_set absl::statusor absl::log mozc::base::file_stream mozc::base::hash mozc::base::clock mozc::base::mmap mozc::base::vlog mozc::base::file_util)
 mozc_library(louds/louds.cc

@@ -49,7 +49,7 @@ add_library(config_dialog ${MOZC_LIBRARY_TYPE}
 target_include_directories(config_dialog PRIVATE ${MOZC_SOURCE_DIR} ${PROJECT_BINARY_DIR})
 target_link_libraries(config_dialog
     Qt6::Widgets
-    protocol
+    mozc::protocol::protocol
     mozc::base::system_util
     mozc::base::config_file_stream
     mozc::session::internal::keymap
