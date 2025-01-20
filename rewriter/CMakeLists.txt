@@ -1,0 +1,120 @@
+mozc_library(calculator/calculator.cc
+    DEPENDS
+        absl::log
+        absl::check
+        mozc::base::strings
+        mozc::base::number_util
+        mozc::base::singleton
+)
+
+mozc_library(rewriter.cc
+    SOURCES
+    order_rewriter.cc
+    version_rewriter.cc
+    a11y_description_rewriter.cc
+    command_rewriter.cc
+    user_boundary_history_rewriter.cc
+    emoticon_rewriter.cc
+    correction_rewriter.cc
+    unicode_rewriter.cc
+    variants_rewriter.cc
+    zipcode_rewriter.cc
+    date_rewriter.cc
+    focus_candidate_rewriter.cc
+    transliteration_rewriter.cc
+    rewriter_util.cc
+    number_rewriter.cc
+    single_kanji_rewriter.cc
+    small_letter_rewriter.cc
+    english_variants_rewriter.cc
+    user_dictionary_rewriter.cc
+    emoji_rewriter.cc
+    dice_rewriter.cc
+    fortune_rewriter.cc
+    environmental_filter_rewriter.cc
+    symbol_rewriter.cc
+    calculator_rewriter.cc
+    ivs_variants_rewriter.cc
+    number_compound_util.cc
+    t13n_promotion_rewriter.cc
+    language_aware_rewriter.cc
+    remove_redundant_candidate_rewriter.cc
+    user_segment_history_rewriter.cc
+    collocation_rewriter.cc
+    collocation_util.cc
+    usage_rewriter.cc
+    
+    DEPENDS
+    protocol
+    mozc::base::util
+    mozc::base::version
+    mozc::base::file_util
+    mozc::base::config_file_stream
+    mozc::base::text_normalizer
+    mozc::config::character_form_manager
+    mozc::composer::composer
+    mozc::data_manager::data_manager
+    mozc::data_manager::serialized_dictionary
+    mozc::usage_stats::usage_stats
+    mozc::storage::lru_storage
+    mozc::storage::existence_filter
+    mozc::dictionary::single_kanji_dictionary
+    mozc::rewriter::calculator::calculator
+    mozc::converter::segments)
+mozc_library(dictionary_generator.cc
+    DEPENDS 
+        absl::log
+        mozc::dictionary::pos_matcher
+        mozc::dictionary::user_pos
+)
+mozc_library(variants_rewriter.cc
+    DEPENDS 
+        mozc::dictionary::pos_matcher
+        absl::log
+        absl::check
+        mozc::config::character_form_manager
+        mozc::converter::segments
+)
+mozc_executable(gen_symbol_rewriter_dictionary_main.cc
+    DEPENDS
+        absl::raw_hash_set
+        absl::flags
+        absl::statusor
+        absl::check
+        mozc::base::init_mozc
+        mozc::base::file_stream
+        mozc::base::file::temp_dir
+        mozc::base::util
+        mozc::base::vlog
+        mozc::data_manager::data_manager
+        mozc::rewriter::dictionary_generator
+)
+add_dependencies(rewriter-gen_symbol_rewriter_dictionary_main segmenter_inl)
+
+mozc_executable(gen_emoticon_rewriter_data.cc DEPENDS
+    absl::raw_hash_set
+    absl::flags
+    mozc::base::file_stream
+    mozc::base::init_mozc
+    mozc::data_manager::serialized_dictionary
+)
+mozc_executable(gen_single_kanji_noun_prefix_data.cc DEPENDS
+    mozc::base::init_mozc
+    mozc::data_manager::serialized_dictionary
+    absl::flags
+)
+mozc_library(gen_existence_data.cc DEPENDS 
+    mozc::storage::existence_filter
+    mozc::base::hash
+    mozc::base::codegen_bytearray_stream
+)
+mozc_executable(gen_collocation_data_main.cc DEPENDS
+    mozc::base::init_mozc
+    mozc::base::file_stream
+    mozc::rewriter::gen_existence_data
+)
+mozc_executable(gen_collocation_suppression_data_main.cc DEPENDS
+    mozc::base::init_mozc
+    mozc::base::file_stream
+    mozc::rewriter::gen_existence_data
+)
