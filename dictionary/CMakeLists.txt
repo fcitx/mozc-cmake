@@ -59,6 +59,7 @@ mozc_library(system/system_dictionary.cc
         system/codec.cc
     DEPENDS
         protocol
+        mozc::dictionary::pos_matcher
         mozc::base::vlog
         mozc::base::singleton
         mozc::base::mmap
