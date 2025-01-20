@@ -52,7 +52,7 @@ if (BUILD_TOOL)
 add_subdirectory(gui)
 endif()
 
-if (BUILD_SERVER)
+if (BUILD_SERVER AND ENABLE_SERVER)
 add_subdirectory(server)
 endif()
 

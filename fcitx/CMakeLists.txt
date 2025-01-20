@@ -7,10 +7,10 @@ add_library(fcitx5-mozc MODULE
     ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_client_pool.cc
     ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_engine_factory.cc
     ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_engine.cc
-    ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_ipc_client.cc
     ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_response_parser.cc
     ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_state.cc
 )
+
 set_target_properties(fcitx5-mozc PROPERTIES PREFIX "")
 
 target_link_libraries(fcitx5-mozc 
@@ -20,8 +20,21 @@ target_link_libraries(fcitx5-mozc
     mozc::base::vlog
     mozc::base::process
     mozc::base::util
-    mozc::base::init_mozc
-    mozc::client::client)
+    mozc::base::init_mozc)
+
+if (ENABLE_SERVER)
+    target_sources(fcitx5-mozc PRIVATE ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_ipc_client.cc)
+    target_link_libraries(fcitx5-mozc mozc::client::client)
+else()
+    target_sources(fcitx5-mozc PRIVATE ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_direct_client.cc)
+    target_link_libraries(fcitx5-mozc
+        mozc::session::session_usage_observer
+        mozc::engine::engine
+        mozc::session::key_info_util
+        mozc::session::session_handler
+        mozc::data_manager::oss::oss_data_manager)
+endif()
+
 install(TARGETS fcitx5-mozc DESTINATION "${CMAKE_INSTALL_LIBDIR}/fcitx5")
 install(FILES ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc-addon.conf RENAME mozc.conf DESTINATION "${FCITX_INSTALL_PKGDATADIR}/addon"
          COMPONENT config)
