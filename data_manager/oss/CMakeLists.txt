@@ -167,7 +167,7 @@ add_custom_target(dataset-oss-system_dictionary
 set_target_properties(dataset-oss-system_dictionary PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
 set(SUGGESTION_FILTER_FILE ${MOZC_SOURCE_DIR}/data/dictionary_oss/suggestion_filter.txt)
-set(SUGGESTION_FILTER_DATA suggestion_filter_data.data)
+set(SUGGESTION_FILTER_DATA suggestion_filter.data)
 mozc_binary_gen_file(mozc::prediction::gen_suggestion_filter_main
     OUTPUTS ${SUGGESTION_FILTER_DATA}
     INPUTS ${SUGGESTION_FILTER_FILE}
@@ -388,6 +388,33 @@ mozc_python_gen_file(data_manager/gen_data_version.py
          --output=${CMAKE_CURRENT_BINARY_DIR}/${VERSION_DATA}
 )
 
+set(USAGE_BASE_CONJ_SUFFIX_DATA usage_base_conj_suffix.data)
+set(USAGE_CONJ_INDEX_DATA usage_conj_index.data)
+set(USAGE_CONJ_SUFFIX_DATA usage_conj_suffix.data)
+set(USAGE_ITEM_ARRAY_DATA usage_item_array.data)
+set(USAGE_STRING_ARRAY_DATA usage_string_array.data)
+
+mozc_binary_gen_file(mozc::rewriter::gen_usage_rewriter_dictionary_main
+    OUTPUTS
+        ${USAGE_BASE_CONJ_SUFFIX_DATA}
+        ${USAGE_CONJ_INDEX_DATA}
+        ${USAGE_CONJ_SUFFIX_DATA}
+        ${USAGE_ITEM_ARRAY_DATA}
+        ${USAGE_STRING_ARRAY_DATA}
+        ${CFORMS}
+        third_party/japanese_usage_dictionary/usage_dict.txt
+    INPUTS
+
+    ARGS
+        --usage_data_file=third_party/japanese_usage_dictionary/usage_dict.txt
+        --cforms_file=${CFORMS}
+        --output_base_conjugation_suffix=${CMAKE_CURRENT_BINARY_DIR}/${USAGE_BASE_CONJ_SUFFIX_DATA}
+        --output_conjugation_suffix=${CMAKE_CURRENT_BINARY_DIR}/${USAGE_CONJ_SUFFIX_DATA}
+        --output_conjugation_index=${CMAKE_CURRENT_BINARY_DIR}/${USAGE_CONJ_INDEX_DATA}
+        --output_usage_item_array=${CMAKE_CURRENT_BINARY_DIR}/${USAGE_ITEM_ARRAY_DATA}
+        --output_string_array=${CMAKE_CURRENT_BINARY_DIR}/${USAGE_STRING_ARRAY_DATA}
+)
+
 mozc_binary_gen_file(mozc::data_manager::dataset_writer_main
     OUTPUTS ${MOZC_DATA}
     INPUTS ${CMAKE_CURRENT_BINARY_DIR}/${POS_MATCHER_DATA}
@@ -438,6 +465,12 @@ mozc_binary_gen_file(mozc::data_manager::dataset_writer_main
 
     ${CMAKE_CURRENT_BINARY_DIR}/${VERSION_DATA}
 
+    ${CMAKE_CURRENT_BINARY_DIR}/${USAGE_BASE_CONJ_SUFFIX_DATA}
+    ${CMAKE_CURRENT_BINARY_DIR}/${USAGE_CONJ_INDEX_DATA}
+    ${CMAKE_CURRENT_BINARY_DIR}/${USAGE_CONJ_SUFFIX_DATA}
+    ${CMAKE_CURRENT_BINARY_DIR}/${USAGE_ITEM_ARRAY_DATA}
+    ${CMAKE_CURRENT_BINARY_DIR}/${USAGE_STRING_ARRAY_DATA}
+
     ARGS --magic="\\xEF\\x4D\\x4F\\x5A\\x43\\x0D\\x0A"
          --output=${CMAKE_CURRENT_BINARY_DIR}/${MOZC_DATA}
         "pos_matcher:32:${CMAKE_CURRENT_BINARY_DIR}/${POS_MATCHER_DATA}"
@@ -455,7 +488,7 @@ mozc_binary_gen_file(mozc::data_manager::dataset_writer_main
         "segmenter_rtable:32:${CMAKE_CURRENT_BINARY_DIR}/${SEGMENTER_RTABLE_DATA}"
         "segmenter_bitarray:32:${CMAKE_CURRENT_BINARY_DIR}/${SEGMENTER_BITARRAY_DATA}"
         "counter_suffix:32:${CMAKE_CURRENT_BINARY_DIR}/${COUNTER_SUFFIX_DATA}"
-        "suffix_key:32:${CMAKE_CURRENT_BINARY_DIR}//${SUFFIX_VALUE_DATA}"
+        "suffix_key:32:${CMAKE_CURRENT_BINARY_DIR}//${SUFFIX_KEY_DATA}"
         "suffix_value:32:${CMAKE_CURRENT_BINARY_DIR}/${SUFFIX_VALUE_DATA}"
         "suffix_token:32:${CMAKE_CURRENT_BINARY_DIR}/${SUFFIX_TOKEN_DATA}"
         "reading_correction_value:32:${CMAKE_CURRENT_BINARY_DIR}/${READING_CORRECITON_VALUE_DATA}"
@@ -481,6 +514,11 @@ mozc_binary_gen_file(mozc::data_manager::dataset_writer_main
         "a11y_description_token:32:${CMAKE_CURRENT_BINARY_DIR}/${A11Y_DESCRIPTION_TOKEN_DATA}"
         "a11y_description_string:32:${CMAKE_CURRENT_BINARY_DIR}/${A11Y_DESCRIPTION_STRING_DATA}"
         "version:32:${CMAKE_CURRENT_BINARY_DIR}/${VERSION_DATA}"
+        "usage_base_conjugation_suffix:32:${CMAKE_CURRENT_BINARY_DIR}/${USAGE_BASE_CONJ_SUFFIX_DATA}"
+        "usage_conjugation_suffix:32:${CMAKE_CURRENT_BINARY_DIR}/${USAGE_CONJ_SUFFIX_DATA}"
+        "usage_conjugation_index:32:${CMAKE_CURRENT_BINARY_DIR}/${USAGE_CONJ_INDEX_DATA}"
+        "usage_item_array:32:${CMAKE_CURRENT_BINARY_DIR}/${USAGE_ITEM_ARRAY_DATA}"
+        "usage_string_array:32:${CMAKE_CURRENT_BINARY_DIR}/${USAGE_STRING_ARRAY_DATA}"
 )
 
 mozc_python_gen_file(build_tools/embed_file.py

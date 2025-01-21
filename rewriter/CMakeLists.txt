@@ -118,3 +118,8 @@ mozc_executable(gen_collocation_suppression_data_main.cc DEPENDS
     mozc::base::file_stream
     mozc::rewriter::gen_existence_data
 )
+mozc_executable(gen_usage_rewriter_dictionary_main.cc DEPENDS
+    mozc::base::init_mozc
+    mozc::base::file_stream
+    mozc::base::container::serialized_string_array
+)
