@@ -28,7 +28,6 @@ if (ENABLE_SERVER)
 else()
     target_sources(fcitx5-mozc PRIVATE ${MOZC_SOURCE_DIR}/unix/fcitx5/mozc_direct_client.cc)
     target_link_libraries(fcitx5-mozc
-        mozc::session::session_usage_observer
         mozc::engine::engine
         mozc::session::key_info_util
         mozc::session::session_handler

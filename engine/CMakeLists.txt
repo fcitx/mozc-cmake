@@ -21,9 +21,28 @@ mozc_library(engine.cc DEPENDS
     mozc::converter::converter
     mozc::engine::minimal_converter
     mozc::engine::data_loader
+    mozc::engine::engine_converter
     mozc::prediction::predictor
     mozc::converter::immutable_converter
     mozc::prediction::dictionary_predictor
     mozc::rewriter::rewriter
     mozc::dictionary::user_dictionary_session_handler
 )
+
+mozc_library(candidate_list.cc DEPENDS
+    absl::raw_hash_set
+    absl::log
+    mozc::base::hash)
+mozc_library(engine_output.cc DEPENDS
+    mozc::protocol::protocol
+    mozc::engine::candidate_list
+    mozc::base::text_normalizer
+    mozc::converter::segments
+    mozc::composer::composer)
+mozc_library(engine_converter.cc DEPENDS
+    mozc::protocol::protocol
+    mozc::engine::candidate_list
+    mozc::converter::segments
+    mozc::base::util
+    mozc::composer::composer
+    mozc::engine::engine_output)

@@ -52,7 +52,7 @@ target_link_libraries(config_dialog
     mozc::protocol::protocol
     mozc::base::system_util
     mozc::base::config_file_stream
-    mozc::session::internal::keymap
+    mozc::session::keymap
     mozc::gui::base
     mozc::client::client
     mozc::config::stats_config_util

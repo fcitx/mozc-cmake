@@ -7,7 +7,6 @@ mozc_library(user_history_predictor.cc DEPENDS
     mozc::base::hash
     mozc::composer::composer
     mozc::converter::segments
-    mozc::usage_stats::usage_stats
     mozc::base::config_file_stream
     mozc::storage::encrypted_string_storage
     mozc::rewriter::variants_rewriter
@@ -36,7 +35,6 @@ mozc_library(dictionary_prediction_aggregator.cc DEPENDS
     mozc::base::util
     mozc::base::number_util
     mozc::converter::segments
-    mozc::converter::node_list_builder
     mozc::composer::composer
     mozc::prediction::result
     mozc::prediction::number_decoder
@@ -52,7 +50,6 @@ mozc_library(dictionary_predictor.cc DEPENDS
     mozc::converter::segmenter
     mozc::prediction::suggestion_filter
     mozc::prediction::result
-    mozc::usage_stats::usage_stats
     mozc::dictionary::single_kanji_dictionary
     mozc::prediction::dictionary_prediction_aggregator)
 mozc_library(predictor.cc DEPENDS

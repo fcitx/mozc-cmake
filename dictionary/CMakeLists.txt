@@ -104,7 +104,6 @@ mozc_library(user_dictionary.cc
         mozc::dictionary::user_dictionary_util 
         mozc::dictionary::user_dictionary_storage
         mozc::dictionary::suppression_dictionary 
-        mozc::usage_stats::usage_stats
 )
 mozc_library(text_dictionary_loader.cc DEPENDS
     mozc::dictionary::pos_matcher

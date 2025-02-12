@@ -55,7 +55,6 @@ mozc_library(rewriter.cc
     mozc::composer::composer
     mozc::data_manager::data_manager
     mozc::data_manager::serialized_dictionary
-    mozc::usage_stats::usage_stats
     mozc::storage::lru_storage
     mozc::storage::existence_filter
     mozc::dictionary::single_kanji_dictionary
