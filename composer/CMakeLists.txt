@@ -1,11 +1,11 @@
 mozc_library(composer.cc
              SOURCES
-                internal/mode_switching_handler.cc
-                internal/composition.cc
-                internal/char_chunk.cc
-                internal/composition_input.cc
-                internal/special_key.cc
-                internal/transliterators.cc
+                composition.cc
+                mode_switching_handler.cc
+                char_chunk.cc
+                composition_input.cc
+                special_key.cc
+                transliterators.cc
                 table.cc
                 key_parser.cc
                 key_event_util.cc
