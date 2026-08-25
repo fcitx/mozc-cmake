@@ -6,12 +6,14 @@ mozc_library(modules.cc DEPENDS
     mozc::converter::connector
     mozc::converter::segmenter
     mozc::prediction::suggestion_filter
-    mozc::prediction::single_kanji_prediction_aggregator
+    mozc::prediction::user_history_storage
     mozc::dictionary::user_pos
     mozc::dictionary::user_dictionary
     mozc::dictionary::suffix_dictionary
     mozc::dictionary::dictionary_impl
-    mozc::dictionary::system::system_dictionary)
+    mozc::dictionary::system::system_dictionary
+    mozc::dictionary::single_kanji_dictionary
+    mozc::dictionary::user_dictionary_storage)
 mozc_library(data_loader.cc DEPENDS
     mozc::engine::modules
     mozc::data_manager::data_manager)
@@ -26,7 +28,6 @@ mozc_library(engine.cc DEPENDS
     mozc::converter::immutable_converter
     mozc::prediction::dictionary_predictor
     mozc::rewriter::rewriter
-    mozc::dictionary::user_dictionary_session_handler
 )
 
 mozc_library(candidate_list.cc DEPENDS

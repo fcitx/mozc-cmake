@@ -34,7 +34,7 @@ target_link_libraries(dictionary_tool
     mozc::base::system_util
     mozc::base::util
     mozc::dictionary::user_dictionary_storage
-    mozc::dictionary::user_dictionary_session
+    mozc::dictionary::user_dictionary_importer
     mozc::data_manager::pos_list_provider
     mozc::gui::base
     mozc::client::client

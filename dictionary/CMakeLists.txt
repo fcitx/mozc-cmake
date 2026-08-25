@@ -10,14 +10,21 @@ set_target_properties(pos_matcher_impl PROPERTIES EXCLUDE_FROM_ALL TRUE)
 mozc_library(pos_matcher.h)
 target_include_directories(dictionary-pos_matcher INTERFACE ${PROJECT_BINARY_DIR})
 add_dependencies(dictionary-pos_matcher pos_matcher_impl)
-mozc_library(user_dictionary_util.cc DEPENDS mozc::protocol::protocol mozc::base::vlog mozc::base::strings mozc::base::config_file_stream)
-mozc_library(user_dictionary_storage.cc DEPENDS mozc::protocol::protocol mozc::dictionary::user_dictionary_util mozc::base::process_mutex)
-mozc_library(user_dictionary_session_handler.cc DEPENDS absl::log absl::random_random mozc::dictionary::user_dictionary_session)
-mozc_library(user_dictionary_session.cc DEPENDS
-    mozc::protocol::protocol
-    mozc::dictionary::user_dictionary_util 
-    mozc::dictionary::user_dictionary_importer
-    mozc::dictionary::user_dictionary_storage)
+mozc_library(user_dictionary_util.cc
+    DEPENDS
+        mozc::protocol::protocol
+        mozc::base::vlog
+        mozc::base::strings
+        mozc::base::config_file_stream
+        mozc::base::text_normalizer
+)
+mozc_library(user_dictionary_storage.cc
+    DEPENDS
+        mozc::protocol::protocol
+        mozc::dictionary::user_dictionary_util
+        mozc::base::process_mutex
+        mozc::dictionary::user_pos
+)
 mozc_python_gen_file(dictionary/gen_pos_map.py
     OUTPUTS pos_map.inc
     INPUTS data/rules/third_party_pos_map.def
@@ -29,32 +36,50 @@ mozc_python_gen_file(dictionary/gen_pos_map.py
 add_custom_target(pos_map DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/pos_map.inc)
 set_target_properties(pos_map PROPERTIES EXCLUDE_FROM_ALL TRUE)
 mozc_library(user_dictionary_importer.cc 
-    DEPENDS mozc::protocol::protocol mozc::base::mmap mozc::base::strings mozc::base::vlog mozc::base::number_util mozc::base::hash mozc::dictionary::user_dictionary_util)
+    DEPENDS
+        mozc::protocol::protocol
+        mozc::base::mmap
+        mozc::base::strings
+        mozc::base::vlog
+        mozc::base::number_util
+        mozc::base::hash
+        mozc::dictionary::user_dictionary_util
+        mozc::dictionary::user_dictionary_storage
+)
 add_dependencies(dictionary-user_dictionary_importer pos_map)
 target_include_directories(dictionary-user_dictionary_importer PRIVATE ${PROJECT_BINARY_DIR})
-mozc_library(suppression_dictionary.cc DEPENDS
-    absl::log
-    absl::raw_hash_set
-    )
 mozc_library(file/dictionary_file.cc
     SOURCES
-    file/codec_factory.cc
     file/codec.cc
-    file/codec_util.cc
     DEPENDS
     absl::log
     absl::statusor
     mozc::base::mmap
     mozc::base::vlog
-    mozc::base::hash
-    mozc::base::singleton)
+    mozc::base::hash)
+
 mozc_library(user_pos.cc
     DEPENDS
         absl::log
         absl::raw_hash_set
         absl::check
         mozc::base::container::serialized_string_array
+        mozc::protocol::protocol
 )
+
+mozc_python_gen_file(dictionary/gen_pos_cost_map.py
+    OUTPUTS pos_cost_map.inc
+    INPUTS data/rules/user_pos.def
+    ARGS --user_pos_file=data/rules/user_pos.def
+         --output=${CMAKE_CURRENT_BINARY_DIR}/pos_cost_map.inc
+)
+add_custom_target(pos_cost_map DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/pos_cost_map.inc)
+set_target_properties(pos_cost_map PROPERTIES EXCLUDE_FROM_ALL TRUE)
+add_dependencies(dictionary-user_pos pos_cost_map)
+target_include_directories(dictionary-user_pos PRIVATE ${PROJECT_BINARY_DIR})
+
+mozc_library(dictionary_interface.h DEPENDS mozc::protocol::protocol)
+
 mozc_library(system/system_dictionary.cc
     SOURCES
         system/value_dictionary.cc
@@ -63,7 +88,6 @@ mozc_library(system/system_dictionary.cc
         mozc::protocol::protocol
         mozc::dictionary::pos_matcher
         mozc::base::vlog
-        mozc::base::singleton
         mozc::base::mmap
         mozc::base::strings
         mozc::base::util
@@ -81,7 +105,6 @@ mozc_library(dictionary_impl.cc
     DEPENDS
     mozc::protocol::protocol
     mozc::base::util
-    mozc::dictionary::suppression_dictionary 
     mozc::dictionary::pos_matcher
 )
 mozc_library(suffix_dictionary.cc
@@ -103,7 +126,7 @@ mozc_library(user_dictionary.cc
         mozc::base::hash 
         mozc::dictionary::user_dictionary_util 
         mozc::dictionary::user_dictionary_storage
-        mozc::dictionary::suppression_dictionary 
+        mozc::dictionary::user_dictionary_importer
 )
 mozc_library(text_dictionary_loader.cc DEPENDS
     mozc::dictionary::pos_matcher

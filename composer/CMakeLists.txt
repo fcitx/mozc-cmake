@@ -15,7 +15,6 @@ mozc_library(composer.cc
                 mozc::base::util
                 mozc::base::vlog
                 mozc::base::hash
-                mozc::base::singleton
                 mozc::base::clock
                 mozc::config::config_handler
                 mozc::config::character_form_manager

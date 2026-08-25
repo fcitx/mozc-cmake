@@ -31,7 +31,6 @@ mozc_library(session_handler.cc DEPENDS
     mozc::session::keymap
     mozc::session::session
     mozc::session::session_watch_dog
-    mozc::dictionary::user_dictionary_session_handler
     mozc::base::stopwatch )
 mozc_library(session_server.cc DEPENDS
     mozc::data_manager::oss::oss_data_manager

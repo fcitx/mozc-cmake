@@ -9,7 +9,6 @@ target_link_libraries(mozc_server
     mozc::base::system_util
     mozc::base::run_level
     mozc::base::init_mozc
-    mozc::base::crash_report_handler
     mozc::base::process_mutex
     mozc::session::session_server
     config-stats_config_util

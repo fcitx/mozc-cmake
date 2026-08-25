@@ -24,7 +24,6 @@ target_link_libraries(word_register_dialog
     mozc::gui::base
     mozc::dictionary::user_dictionary_util
     mozc::dictionary::user_dictionary_storage
-    mozc::dictionary::user_dictionary_session
     mozc::client::client
     mozc::data_manager::pos_list_provider
     absl::log

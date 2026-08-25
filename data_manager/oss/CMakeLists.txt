@@ -23,6 +23,7 @@ set(USER_POS data/rules/user_pos.def)
 set(CFORMS data/rules/cforms.def)
 set(POS_MATCHER_RULE data/rules/pos_matcher_rule.def)
 set(TEXT_CONNECTION_FILE data/dictionary_oss/connection_single_column.txt)
+set(SEGMENTER_DEF data/rules/segmenter.def)
 
 set(POS_LIST_DATA pos_list.data)
 set(POS_LIST_INC pos_list.inc)
@@ -382,9 +383,9 @@ mozc_python_gen_file(rewriter/gen_a11y_description_rewriter_data.py
 set(VERSION_DATA version.data)
 mozc_python_gen_file(data_manager/gen_data_version.py
     OUTPUTS ${VERSION_DATA}
-    INPUTS data/version/mozc_version_template.bzl
+    INPUTS version.bzl
     ARGS --tag=oss
-         --mozc_version_template=data/version/mozc_version_template.bzl
+         --mozc_version_template=version.bzl
          --output=${CMAKE_CURRENT_BINARY_DIR}/${VERSION_DATA}
 )
 
@@ -540,18 +541,13 @@ add_dependencies(data_manager-oss-oss_data_manager dataset-oss-mozc_data)
 target_include_directories(data_manager-oss-oss_data_manager PRIVATE ${PROJECT_BINARY_DIR})
 target_compile_definitions(data_manager-oss-oss_data_manager PRIVATE -DMOZC_DATASET_MAGIC_NUMBER_LENGTH=7)
 
-mozc_python_gen_file(build_tools/redirect.py
+mozc_python_gen_file(converter/gen_segmenter_code.py
     OUTPUTS segmenter_inl.inc
-    INPUTS data/dictionary_oss/id.def
-           data/rules/special_pos.def
-           data/rules/segmenter.def
-    ARGS ${CMAKE_CURRENT_BINARY_DIR}/segmenter_inl.inc
-         ${MOZC_SOURCE_DIR}/converter/gen_segmenter_code.py
-         data/dictionary_oss/id.def
-         data/rules/special_pos.def
-         data/rules/segmenter.def
+    INPUTS ${ID_DEF}
+           ${SPECIAL_POS}
+           ${SEGMENTER_DEF}
+    ARGS ${ID_DEF} ${SPECIAL_POS} ${SEGMENTER_DEF} > ${CMAKE_CURRENT_BINARY_DIR}/segmenter_inl.inc
 )
-
 add_custom_target(segmenter_inl
     DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/segmenter_inl.inc
 )
