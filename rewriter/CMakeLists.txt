@@ -2,14 +2,13 @@ mozc_library(calculator/calculator.cc
     DEPENDS
         absl::log
         absl::check
+        absl::flat_hash_set
         mozc::base::strings
         mozc::base::number_util
-        mozc::base::singleton
 )
 
 mozc_library(rewriter.cc
     SOURCES
-    order_rewriter.cc
     version_rewriter.cc
     a11y_description_rewriter.cc
     command_rewriter.cc
@@ -59,7 +58,9 @@ mozc_library(rewriter.cc
     mozc::storage::existence_filter
     mozc::dictionary::single_kanji_dictionary
     mozc::rewriter::calculator::calculator
-    mozc::converter::segments)
+    mozc::converter::segments
+    mozc::prediction::user_history_storage
+    )
 mozc_library(dictionary_generator.cc
     DEPENDS 
         absl::log
@@ -88,7 +89,6 @@ mozc_executable(gen_symbol_rewriter_dictionary_main.cc
         mozc::data_manager::data_manager
         mozc::rewriter::dictionary_generator
 )
-add_dependencies(rewriter-gen_symbol_rewriter_dictionary_main segmenter_inl)
 
 mozc_executable(gen_emoticon_rewriter_data.cc DEPENDS
     absl::raw_hash_set

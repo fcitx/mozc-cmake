@@ -6,22 +6,27 @@ mozc_library(segments.cc DEPENDS
 mozc_library(reverse_converter.cc DEPENDS mozc::protocol::protocol mozc::converter::segments mozc::base::util mozc::composer::composer)
 mozc_library(converter.cc DEPENDS
     mozc::protocol::protocol
+    mozc::converter::converter_util
     mozc::converter::history_reconstructor
     mozc::converter::reverse_converter
-    mozc::dictionary::suppression_dictionary)
+    mozc::prediction::user_history_storage
+)
 mozc_library(key_corrector.cc DEPENDS
     mozc::protocol::protocol
     mozc::base::util
     mozc::base::vlog)
 mozc_library(lattice.cc DEPENDS
-        mozc::base::singleton absl::log absl::check)
+        absl::log absl::check)
 mozc_library(candidate.cc DEPENDS
     mozc::protocol::protocol
     mozc::base::vlog
     mozc::base::number_util
     mozc::base::util
-    mozc::prediction::suggestion_filter
-    mozc::dictionary::suppression_dictionary)
+    mozc::prediction::suggestion_filter)
+mozc_library(converter_util.cc DEPENDS
+    mozc::composer::composer
+    mozc::converter::segments
+)
 
 mozc_library(candidate_filter.cc DEPENDS
     mozc::protocol::protocol
@@ -29,8 +34,7 @@ mozc_library(candidate_filter.cc DEPENDS
     mozc::base::vlog
     mozc::base::number_util
     mozc::base::util
-    mozc::prediction::suggestion_filter
-    mozc::dictionary::suppression_dictionary)
+    mozc::prediction::suggestion_filter)
 mozc_library(nbest_generator.cc DEPENDS
     mozc::protocol::protocol
     mozc::converter::segmenter
@@ -45,7 +49,9 @@ mozc_library(immutable_converter.cc DEPENDS
     mozc::converter::segments
     mozc::converter::segmenter
     mozc::converter::connector
-    mozc::converter::nbest_generator)
+    mozc::converter::nbest_generator
+    mozc::prediction::user_history_storage
+)
 mozc_library(connector.cc DEPENDS absl::log absl::check absl::statusor mozc::storage::louds::louds)
 mozc_library(segmenter.cc DEPENDS absl::log absl::check)
 mozc_library(gen_segmenter_bitarray.cc DEPENDS mozc::protocol::segmenter_data_pb mozc::base::file_stream)

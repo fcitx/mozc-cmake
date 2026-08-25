@@ -14,5 +14,4 @@ target_link_libraries(gui-base
     mozc::base::util
     mozc::base::file_stream
     mozc::base::process_mutex
-    mozc::base::crash_report_handler
 )
